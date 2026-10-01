@@ -18,6 +18,10 @@ jobs:
       - name: Build with make
         working-directory: lab3
         run: make
+       
+      - name: Run unit tests
+        working-directory: lab3
+        run: make test    
 
       - name: Run program and capture output
         working-directory: lab3
