@@ -1,2 +1,5 @@
 output/*
 !output/.gitkeep
+lab3/*.o
+lab3/fib
+lab3/fib_test
