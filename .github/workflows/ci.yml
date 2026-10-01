@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build and Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build with make
+        working-directory: lab3
+        run: make
+
+      - name: Run program and capture output
+        working-directory: lab3
+        run: ./fib | tee output.txt
+
+      - name: Verify Fibonacci output is 55
+        working-directory: lab3
+        run: grep -q "The 10th Fibonacci number is 55" output.txt
+
+      - name: Verify Golden Ratio output is 1.618034
+        working-directory: lab3
+        run: grep -q "The theoretical Golden Ratio is 1.618034" output.txt
