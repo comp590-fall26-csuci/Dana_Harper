@@ -30,3 +30,16 @@ jobs:
       - name: Verify Golden Ratio output is 1.618034
         working-directory: lab3
         run: grep -q "The theoretical Golden Ratio is 1.618034" output.txt
+    semgrep:
+    name: Semgrep CE Scan
+    runs-on: ubuntu-latest
+
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep Community Edition
+        run: semgrep scan --config auto
