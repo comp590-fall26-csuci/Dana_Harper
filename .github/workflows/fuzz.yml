@@ -30,61 +30,7 @@ jobs:
           mkdir -p fuzz_in
           printf 'IMG\x00\x10\x00\x00\x00\x10\x00\x00\x00abcdefghij' > fuzz_in/seed
 
-      - name: Fuzz for three mname: Fuzz
-
-on:
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: read
-
-jobs:
-  afl:
-    name: AFL++ Fuzz dvcp
-    runs-on: ubuntu-latest
-    continue-on-error: true
-
-    container:
-      image: aflplusplus/aflplusplus:latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Build dvcp with AFL++ instrumentation
-        working-directory: lab5
-        run: afl-clang-fast -o dvcp dvcp.c
-
-      - name: Create seed corpus
-        working-directory: lab5
-        run: |
-          mkdir -p fuzz_in
-          printf 'IMG\x00\x10\x00\x00\x00\x10\x00\x00\x00abcdefghij' > fuzz_in/seed
-
       - name: Fuzz for three minutes
-        working-directory: lab5
-        env:
-          AFL_SKIP_CPUFREQ: 1
-          AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES: 1
-          AFL_NO_AFFINITY: 1
-        run: afl-fuzz -i fuzz_in -o fuzz_out -V 180 -m 200 -- ./dvcp @@
-
-      - name: Summarize findings
-        working-directory: lab5
-        if: always()
-        run: |
-          echo "=== Crashes ==="
-          ls -l fuzz_out/default/crashes/ || true
-          echo "=== Hangs ==="
-          ls -l fuzz_out/default/hangs/ || true
-
-      - name: Upload crash artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: afl-findings
-          path: lab5/fuzz_out/inutes
         working-directory: lab5
         env:
           AFL_SKIP_CPUFREQ: 1
