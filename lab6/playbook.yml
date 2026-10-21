@@ -1,0 +1,26 @@
+---
+- name: Lab 6 - Configure this Debian VM
+  hosts: local
+  become: yes
+
+  tasks:
+    - name: Install asciinema
+      ansible.builtin.apt:
+        name: asciinema
+        state: present
+        update_cache: yes
+
+    - name: Install apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+
+    - name: Enable and start the apache2 service
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Show completion message
+      ansible.builtin.debug:
+        msg: "Lab 6 complete - asciinema and apache2 installed, apache2 enabled and serving on localhost"
