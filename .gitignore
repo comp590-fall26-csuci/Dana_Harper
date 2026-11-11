@@ -3,3 +3,6 @@ output/*
 lab3/*.o
 lab3/fib
 lab3/fib_test
+lab8/app/*.o
+lab8/app/fib
+lab8/app/fib_test
